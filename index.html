@@ -481,7 +481,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  const API = 'http://127.0.0.1:8000/api';
+  const API = '/api'; // ✅ FIXED (was localhost before)
 
   function showPage(name) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -530,10 +530,18 @@
     const message = document.getElementById('i-message').value.trim();
     if (!name || !email || !phone) { showToast('Please fill in all required fields', true); return; }
     try {
-      const res = await fetch(API + '/inquiry', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, phone, product, message }) });
-      if (res.ok) { document.getElementById('inquiry-form').style.display = 'none'; document.getElementById('inquiry-success').style.display = 'block'; }
-      else showToast('Something went wrong. Please try again.', true);
-    } catch { showToast('Could not connect to server.', true); }
+      const res = await fetch(API + '/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, product, message })
+      });
+      if (res.ok) {
+        document.getElementById('inquiry-form').style.display = 'none';
+        document.getElementById('inquiry-success').style.display = 'block';
+      } else showToast('Something went wrong. Please try again.', true);
+    } catch {
+      showToast('Could not connect to server.', true);
+    }
   }
 
   async function submitContact() {
@@ -542,22 +550,38 @@
     const phone = document.getElementById('c-phone').value.trim();
     const subject = document.getElementById('c-subject').value.trim();
     const message = document.getElementById('c-message').value.trim();
-    if (!name || !email || !phone || !subject || !message) { showToast('Please fill in all fields', true); return; }
+    if (!name || !email || !phone || !subject || !message) {
+      showToast('Please fill in all fields', true); return;
+    }
     try {
-      const res = await fetch(API + '/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, phone, subject, message }) });
-      if (res.ok) { document.getElementById('contact-form').style.display = 'none'; document.getElementById('contact-success').style.display = 'block'; }
-      else showToast('Something went wrong. Please try again.', true);
-    } catch { showToast('Could not connect to server.', true); }
+      const res = await fetch(API + '/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, subject, message })
+      });
+      if (res.ok) {
+        document.getElementById('contact-form').style.display = 'none';
+        document.getElementById('contact-success').style.display = 'block';
+      } else showToast('Something went wrong. Please try again.', true);
+    } catch {
+      showToast('Could not connect to server.', true);
+    }
   }
 
   async function submitBrochure() {
     const name = document.getElementById('b-name').value.trim();
     const email = document.getElementById('b-email').value.trim();
-    if (!name || !email) { showToast('Please fill in all fields', true); return; }
-    try { await fetch(API + '/brochure-download', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email }) }); } catch {}
+    if (!name || !email) {
+      showToast('Please fill in all fields', true); return;
+    }
+    try {
+      await fetch(API + '/brochure-download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email })
+      });
+    } catch {}
     document.getElementById('brochure-form').style.display = 'none';
     document.getElementById('brochure-success').style.display = 'block';
   }
 </script>
-</body>
-</html>
