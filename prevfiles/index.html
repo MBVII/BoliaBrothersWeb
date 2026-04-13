@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bolia Brothers LLP - Wholesale Distribution</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #c8441a;
+      --orange-hover: #a8360f;
+      --dark: #1c1c1c;
+      --body: #3a3a3a;
+      --muted: #6b6b6b;
+      --bg: #f0ece2;
+      --bg-section: #e8e4da;
+      --white: #ffffff;
+      --border: #ddd8cc;
+      --dark-section: #1c1c1c;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:var(--body); }
+
+    /* NAV */
+    nav { position:fixed; top:0; left:0; right:0; z-index:100; background:var(--bg); border-bottom:1px solid var(--border); padding:0 6%; height:64px; display:flex; align-items:center; justify-content:space-between; }
+    .logo { font-size:1.3rem; font-weight:800; color:var(--orange); cursor:pointer; text-decoration:none; }
+    .nav-links { display:flex; gap:32px; list-style:none; align-items:center; }
+    .nav-links a { font-size:0.9rem; font-weight:500; color:var(--body); text-decoration:none; cursor:pointer; transition:color 0.2s; }
+    .nav-links a:hover,.nav-links a.active { color:var(--orange); }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+    .hamburger span { width:24px; height:2px; background:var(--dark); border-radius:2px; display:block; }
+
+    /* PAGES */
+    .page { display:none; padding-top:64px; min-height:100vh; }
+    .page.active { display:block; }
+
+    /* HERO */
+    .hero { position:relative; min-height:calc(100vh - 64px); display:flex; align-items:center; background:url('https://images.pexels.com/photos/6157049/pexels-photo-6157049.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat; }
+    .hero::after { content:''; position:absolute; inset:0; background:linear-gradient(to right, rgba(10,7,4,0.85) 40%, rgba(10,7,4,0.35) 100%); }
+    .hero-content { position:relative; z-index:2; padding:80px 6%; max-width:720px; }
+    .hero-since { color:var(--orange); font-size:0.78rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:20px; }
+    .hero h1 { font-size:clamp(2.5rem,5vw,4rem); font-weight:800; color:#fff; line-height:1.1; margin-bottom:22px; }
+    .hero p { color:rgba(255,255,255,0.72); font-size:1rem; line-height:1.8; margin-bottom:36px; max-width:540px; }
+    .hero-btns { display:flex; gap:16px; flex-wrap:wrap; }
+    .btn-orange { background:var(--orange); color:#fff; padding:13px 26px; border-radius:6px; font-weight:700; font-size:0.9rem; border:none; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition:background 0.2s; font-family:'Plus Jakarta Sans',sans-serif; }
+    .btn-orange:hover { background:var(--orange-hover); }
+    .btn-outline { background:transparent; color:#fff; padding:12px 26px; border-radius:6px; font-weight:700; font-size:0.9rem; border:2px solid rgba(255,255,255,0.55); cursor:pointer; text-decoration:none; display:inline-block; transition:border-color 0.2s; font-family:'Plus Jakarta Sans',sans-serif; }
+    .btn-outline:hover { border-color:#fff; }
+
+    /* SECTIONS */
+    .section { padding:80px 6%; }
+    .section-label { font-size:0.75rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--orange); margin-bottom:14px; }
+    .section-title { font-size:clamp(1.8rem,3.5vw,2.6rem); font-weight:800; color:var(--dark); line-height:1.15; margin-bottom:16px; }
+    .section-sub { color:var(--muted); font-size:0.93rem; line-height:1.8; }
+    .centered { text-align:center; }
+    .centered .section-label { display:block; }
+
+    /* WHY CARDS */
+    .why-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:44px; max-width:1100px; margin-inline:auto; }
+    .why-card { background:var(--white); border:1px solid var(--border); border-radius:10px; padding:32px 26px; }
+    .why-icon { color:var(--orange); margin-bottom:18px; }
+    .why-icon svg { width:30px; height:30px; }
+    .why-card h3 { font-size:1.1rem; font-weight:700; color:var(--dark); margin-bottom:8px; }
+    .why-card p { font-size:0.87rem; color:var(--muted); line-height:1.7; }
+
+    /* PRODUCT THUMBS */
+    .prod-thumbs { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:40px; max-width:1200px; margin-inline:auto; }
+    .prod-thumb img { width:100%; height:260px; object-fit:cover; border-radius:10px 10px 0 0; display:block; }
+    .prod-thumb-label { background:var(--white); border:1px solid var(--border); border-top:none; padding:14px 16px; border-radius:0 0 10px 10px; }
+    .prod-thumb-label span { font-weight:700; font-size:0.93rem; color:var(--dark); }
+
+    /* ABOUT HOME */
+    .about-home { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; max-width:1100px; margin:0 auto; }
+    .about-home img { width:100%; height:420px; object-fit:cover; border-radius:12px; }
+    .check-list { margin:20px 0 28px; display:flex; flex-direction:column; gap:12px; }
+    .check-item { display:flex; align-items:center; gap:12px; font-size:0.92rem; }
+    .check-icon { width:24px; height:24px; background:#1a6b3c; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .check-icon svg { width:13px; height:13px; fill:white; }
+
+    /* CTA DARK */
+    .cta-dark { background:var(--dark-section); padding:80px 6%; text-align:center; }
+    .cta-dark h2 { font-size:clamp(1.8rem,3vw,2.4rem); font-weight:800; color:#fff; margin-bottom:14px; }
+    .cta-dark p { color:rgba(255,255,255,0.58); font-size:0.93rem; margin-bottom:30px; max-width:560px; margin-inline:auto; line-height:1.8; }
+
+    /* FOOTER */
+    footer { background:#1a1a1a; padding:56px 6% 28px; }
+    .footer-grid { display:grid; grid-template-columns:1.8fr 1fr 1fr 1.5fr; gap:40px; max-width:1200px; margin:0 auto 40px; }
+    .footer-brand .logo { font-size:1.2rem; color:var(--orange); display:block; margin-bottom:12px; cursor:pointer; }
+    .footer-brand p { color:rgba(255,255,255,0.48); font-size:0.85rem; line-height:1.7; margin-bottom:8px; }
+    .footer-brand .llpin { color:rgba(255,255,255,0.28); font-size:0.77rem; }
+    .footer-col h4 { color:#fff; font-size:0.83rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:16px; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+    .footer-col ul li a { color:rgba(255,255,255,0.48); font-size:0.86rem; text-decoration:none; cursor:pointer; transition:color 0.2s; }
+    .footer-col ul li a:hover { color:var(--orange); }
+    .footer-ci { display:flex; align-items:flex-start; gap:10px; margin-bottom:12px; }
+    .footer-ci svg { width:15px; height:15px; fill:rgba(255,255,255,0.38); flex-shrink:0; margin-top:3px; }
+    .footer-ci span { color:rgba(255,255,255,0.48); font-size:0.84rem; line-height:1.6; }
+    .footer-bottom { border-top:1px solid rgba(255,255,255,0.08); padding-top:22px; max-width:1200px; margin:0 auto; text-align:center; }
+    .footer-bottom p { color:rgba(255,255,255,0.28); font-size:0.81rem; }
+
+    /* PAGE HEROES */
+    .page-hero { position:relative; height:320px; display:flex; align-items:center; justify-content:center; text-align:center; background-size:cover; background-position:center; }
+    .page-hero::after { content:''; position:absolute; inset:0; background:rgba(10,7,4,0.62); }
+    .page-hero-content { position:relative; z-index:2; padding:20px; }
+    .page-hero-content .section-label { display:block; margin-bottom:10px; }
+    .page-hero-content h1 { font-size:clamp(2rem,4vw,3rem); font-weight:800; color:#fff; margin-bottom:14px; }
+    .page-hero-content p { color:rgba(255,255,255,0.65); font-size:0.95rem; max-width:580px; }
+
+    /* ABOUT */
+    .who-text { max-width:760px; margin:0 auto; text-align:center; }
+    .who-text h2 { font-size:1.9rem; font-weight:800; color:var(--dark); margin-bottom:18px; }
+    .who-text p { color:var(--muted); font-size:0.93rem; line-height:1.85; margin-bottom:14px; }
+    .mvv-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; max-width:1100px; margin:40px auto 0; }
+    .mvv-card { background:var(--white); border:1px solid var(--border); border-radius:10px; padding:30px; }
+    .mvv-icon { color:var(--orange); margin-bottom:14px; }
+    .mvv-card h3 { font-size:1.05rem; font-weight:700; color:var(--dark); margin-bottom:8px; }
+    .mvv-card p { font-size:0.87rem; color:var(--muted); line-height:1.7; }
+    .journey-list { max-width:680px; margin:44px auto 0; display:flex; flex-direction:column; gap:26px; }
+    .journey-item { display:flex; gap:22px; align-items:flex-start; }
+    .journey-year { background:var(--orange); color:#fff; font-weight:800; font-size:0.88rem; padding:12px 14px; border-radius:6px; flex-shrink:0; min-width:68px; text-align:center; }
+    .journey-text h4 { font-size:0.97rem; font-weight:700; color:var(--dark); margin-bottom:4px; }
+    .journey-text p { font-size:0.86rem; color:var(--muted); line-height:1.6; }
+    .industry-box { max-width:760px; margin:0 auto; text-align:center; }
+    .industry-box h2 { font-size:1.8rem; font-weight:800; color:var(--dark); margin-bottom:18px; }
+    .industry-box p { color:var(--muted); font-size:0.93rem; line-height:1.85; margin-bottom:14px; }
+
+    /* PRODUCTS */
+    .prod-cards { display:grid; grid-template-columns:1fr 1fr; gap:26px; max-width:1100px; margin:56px auto 0; padding:0 6%; }
+    .prod-card { background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+    .prod-card-img { height:300px; overflow:hidden; }
+    .prod-card-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
+    .prod-card:hover .prod-card-img img { transform:scale(1.04); }
+    .prod-card-body { padding:26px; }
+    .prod-card-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px; }
+    .prod-card-body h3 { font-size:1.2rem; font-weight:800; color:var(--dark); }
+    .prod-card-icon { color:var(--orange); }
+    .prod-card-icon svg { width:20px; height:20px; }
+    .prod-cat { color:var(--orange); font-size:0.8rem; font-weight:700; margin-bottom:10px; display:block; }
+    .prod-card-body p { font-size:0.86rem; color:var(--muted); line-height:1.7; margin-bottom:18px; }
+    .btn-full { width:100%; background:var(--orange); color:#fff; padding:13px; border:none; border-radius:6px; font-weight:700; font-size:0.88rem; cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif; transition:background 0.2s; }
+    .btn-full:hover { background:var(--orange-hover); }
+    .bulk-box { background:var(--bg-section); padding:72px 6%; text-align:center; margin-top:56px; }
+    .bulk-box h2 { font-size:1.7rem; font-weight:800; color:var(--dark); margin-bottom:12px; }
+    .bulk-box p { color:var(--muted); font-size:0.92rem; max-width:560px; margin:0 auto 24px; line-height:1.8; }
+    .btn-dark { background:var(--dark); color:#fff; padding:13px 26px; border-radius:6px; font-weight:700; font-size:0.88rem; border:none; cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif; transition:background 0.2s; text-decoration:none; display:inline-block; }
+    .btn-dark:hover { background:#333; }
+
+    /* LEADERSHIP */
+    .team-intro { text-align:center; max-width:660px; margin:0 auto; }
+    .team-intro h2 { font-size:1.9rem; font-weight:800; color:var(--dark); margin-bottom:12px; }
+    .team-intro p { color:var(--muted); font-size:0.92rem; line-height:1.8; }
+    .team-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1000px; margin:44px auto 0; }
+    .team-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:34px 26px; text-align:center; }
+    .team-avatar { width:88px; height:88px; border:2px solid var(--orange); border-radius:8px; display:flex; align-items:center; justify-content:center; margin:0 auto 18px; background:#f5ede6; }
+    .team-avatar svg { width:38px; height:38px; }
+    .team-card h3 { font-size:1.08rem; font-weight:800; color:var(--dark); margin-bottom:4px; }
+    .team-role { color:var(--orange); font-size:0.76rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; display:block; }
+    .team-card p { font-size:0.85rem; color:var(--muted); line-height:1.7; }
+
+    /* CONTACT */
+    .contact-layout { display:grid; grid-template-columns:1fr 1.5fr; gap:56px; max-width:1100px; margin:0 auto; }
+    .contact-info h2 { font-size:1.55rem; font-weight:800; color:var(--dark); margin-bottom:26px; }
+    .contact-item { display:flex; gap:14px; align-items:flex-start; margin-bottom:22px; }
+    .contact-icon-box { width:42px; height:42px; background:var(--orange); border-radius:7px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .contact-icon-box svg { width:19px; height:19px; fill:white; }
+    .contact-item-text strong { display:block; font-size:0.88rem; font-weight:700; color:var(--dark); margin-bottom:3px; }
+    .contact-item-text span { font-size:0.86rem; color:var(--muted); line-height:1.6; }
+    .biz-hours { background:var(--bg-section); border-radius:10px; padding:22px; margin-top:6px; }
+    .biz-hours strong { display:block; font-size:0.92rem; font-weight:700; color:var(--dark); margin-bottom:8px; }
+    .biz-hours p { font-size:0.86rem; color:var(--muted); line-height:1.8; }
+    .contact-form-box h2 { font-size:1.55rem; font-weight:800; color:var(--dark); margin-bottom:22px; }
+    .form-group { margin-bottom:16px; }
+    .form-group label { display:block; font-size:0.84rem; font-weight:600; color:var(--dark); margin-bottom:6px; }
+    .form-group input,.form-group textarea,.form-group select { width:100%; padding:11px 13px; border:1.5px solid var(--border); border-radius:6px; font-family:'Plus Jakarta Sans',sans-serif; font-size:0.88rem; color:var(--dark); background:var(--white); outline:none; transition:border-color 0.2s; }
+    .form-group input:focus,.form-group textarea:focus,.form-group select:focus { border-color:var(--orange); }
+    .form-group textarea { min-height:120px; resize:vertical; }
+    .btn-send { width:100%; background:var(--orange); color:#fff; padding:13px; border:none; border-radius:6px; font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:0.9rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:background 0.2s; }
+    .btn-send:hover { background:var(--orange-hover); }
+    .map-section { padding:56px 6%; background:var(--bg); }
+    .map-section h2 { font-size:1.7rem; font-weight:800; color:var(--dark); margin-bottom:26px; text-align:center; }
+    .map-frame { width:100%; height:400px; border-radius:12px; overflow:hidden; border:1px solid var(--border); max-width:1200px; margin:0 auto; display:block; }
+
+    /* MODAL */
+    .modal-overlay { position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.52); backdrop-filter:blur(3px); display:none; align-items:center; justify-content:center; padding:20px; }
+    .modal-overlay.open { display:flex; }
+    .modal { background:#fff; border-radius:16px; padding:34px; max-width:490px; width:100%; max-height:90vh; overflow-y:auto; animation:fadeUp 0.28s ease; }
+    .modal-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:22px; }
+    .modal-header h2 { font-size:1.55rem; font-weight:800; color:var(--dark); }
+    .modal-header p { color:var(--muted); font-size:0.84rem; margin-top:4px; }
+    .modal-close { width:32px; height:32px; border-radius:6px; background:var(--bg); border:1px solid var(--border); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background 0.2s; }
+    .modal-close:hover { background:var(--border); }
+    .success-msg { display:none; text-align:center; padding:36px 16px; }
+    .success-msg .check { font-size:2.8rem; margin-bottom:10px; }
+    .success-msg h3 { color:#1a6b3c; font-size:1.4rem; font-weight:800; margin-bottom:8px; }
+    .success-msg p { color:var(--muted); font-size:0.88rem; }
+
+    /* WHATSAPP */
+    .wa-btn { position:fixed; bottom:26px; right:26px; z-index:99; width:52px; height:52px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(37,211,102,0.42); text-decoration:none; transition:transform 0.2s,box-shadow 0.2s; }
+    .wa-btn:hover { transform:scale(1.1); box-shadow:0 6px 22px rgba(37,211,102,0.54); }
+    .wa-btn svg { width:28px; height:28px; fill:white; }
+
+    /* TOAST */
+    .toast { position:fixed; bottom:90px; right:26px; z-index:300; background:#1a6b3c; color:#fff; padding:11px 18px; border-radius:8px; font-size:0.87rem; font-weight:600; box-shadow:0 5px 18px rgba(0,0,0,0.18); transform:translateY(14px); opacity:0; transition:all 0.3s; pointer-events:none; }
+    .toast.show { transform:translateY(0); opacity:1; }
+    .toast.error { background:#c0392b; }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+
+    @media(max-width:900px) {
+      .why-grid { grid-template-columns:1fr; }
+      .prod-thumbs { grid-template-columns:1fr 1fr; }
+      .about-home { grid-template-columns:1fr; gap:30px; }
+      .mvv-grid { grid-template-columns:1fr; }
+      .prod-cards { grid-template-columns:1fr; padding:0 4%; }
+      .team-cards { grid-template-columns:1fr; }
+      .contact-layout { grid-template-columns:1fr; }
+      .footer-grid { grid-template-columns:1fr 1fr; }
+      .nav-links { display:none; position:absolute; top:64px; left:0; right:0; background:var(--bg); border-bottom:1px solid var(--border); padding:20px 6%; flex-direction:column; gap:16px; }
+      .nav-links.open { display:flex; }
+      .hamburger { display:flex; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" onclick="showPage('home')">Bolia Brothers</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About Us</a></li>
+    <li><a onclick="showPage('products')" id="nav-products">Products</a></li>
+    <li><a onclick="showPage('leadership')" id="nav-leadership">Leadership</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- ═══ HOME ═══ -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-since">SINCE 2023</div>
+      <h1>Trusted Agricultural Commodity Distributors</h1>
+      <p>Bolia Brothers LLP specializes in wholesale distribution of premium agricultural products including Basmati Rice, Yellow Corn, Lokwan Wheat, and Wheat & Malt Extract. Serving businesses across India with reliability and excellence.</p>
+      <div class="hero-btns">
+        <a class="btn-orange" onclick="showPage('products')">View Products →</a>
+        <a class="btn-outline" onclick="openBrochure()">Download Brochure</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="background:var(--bg);">
+    <div class="centered">
+      <span class="section-label">WHY CHOOSE US</span>
+      <h2 class="section-title">Excellence in Every Delivery</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <h3>Reliable Distribution</h3>
+        <p>Timely delivery of quality agricultural commodities across India</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+        <h3>Quality Assurance</h3>
+        <p>Premium products sourced from trusted farms and suppliers</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+        <h3>Competitive Pricing</h3>
+        <p>Best market rates for bulk orders and long-term partnerships</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="background:var(--bg);">
+    <div class="centered">
+      <span class="section-label">OUR PRODUCTS</span>
+      <h2 class="section-title">Quality Agricultural Commodities</h2>
+      <p class="section-sub">We supply premium agricultural products to businesses across India</p>
+    </div>
+    <div class="prod-thumbs">
+      <div class="prod-thumb"><img src="https://images.pexels.com/photos/4110251/pexels-photo-4110251.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Basmati Rice"/><div class="prod-thumb-label"><span>Basmati Rice</span></div></div>
+      <div class="prod-thumb"><img src="https://images.pexels.com/photos/1459331/pexels-photo-1459331.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Yellow Corn"/><div class="prod-thumb-label"><span>Yellow Corn</span></div></div>
+      <div class="prod-thumb"><img src="https://images.pexels.com/photos/30723398/pexels-photo-30723398.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Lokwan Wheat"/><div class="prod-thumb-label"><span>Lokwan Wheat</span></div></div>
+      <div class="prod-thumb"><img src="https://images.pexels.com/photos/30723398/pexels-photo-30723398.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Wheat & Malt Extract"/><div class="prod-thumb-label"><span>Wheat & Malt Extract</span></div></div>
+    </div>
+  </div>
+
+  <div class="section" style="background:var(--bg);">
+    <div class="about-home">
+      <div>
+        <div class="section-label">ABOUT US</div>
+        <h2 class="section-title">Serving India's Agricultural Sector</h2>
+        <p class="section-sub">Established in 2023, Bolia Brothers LLP has quickly become a trusted name in wholesale agricultural commodity distribution. Operating from Udaipur, Rajasthan, we serve businesses across India with commitment to quality and reliability.</p>
+        <div class="check-list">
+          <div class="check-item"><div class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span>Premium quality agricultural products</span></div>
+          <div class="check-item"><div class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span>Reliable supply chain management</span></div>
+          <div class="check-item"><div class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span>Competitive wholesale pricing</span></div>
+        </div>
+        <a class="btn-orange" onclick="showPage('about')">Learn More About Us</a>
+      </div>
+      <img src="https://images.pexels.com/photos/1537169/pexels-photo-1537169.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Agricultural"/>
+    </div>
+  </div>
+
+  <div class="cta-dark">
+    <h2>Ready to Partner With Us?</h2>
+    <p>Get in touch to discuss your agricultural commodity requirements and discover how we can support your business.</p>
+    <a class="btn-orange" onclick="showPage('contact')">Contact Us Today →</a>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><span class="logo" onclick="showPage('home')">Bolia Brothers LLP</span><p>Trusted Agricultural Commodity Distributors</p><p class="llpin">LLPIN: ACA-8788<br>Incorporated: May 1, 2023</p></div>
+      <div class="footer-col"><h4>Quick Links</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('about')">About Us</a></li><li><a onclick="showPage('products')">Products</a></li><li><a onclick="showPage('leadership')">Leadership</a></li><li><a onclick="showPage('contact')">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Our Products</h4><ul><li><a onclick="showPage('products')">Basmati Rice</a></li><li><a onclick="showPage('products')">Yellow Corn</a></li><li><a onclick="showPage('products')">Lokwan Wheat</a></li><li><a onclick="showPage('products')">Wheat &amp; Malt Extract</a></li></ul></div>
+      <div class="footer-col"><h4>Contact Info</h4>
+        <div class="footer-ci"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>315 L1 Road, Bhupalpura, Girwa,<br>Udaipur, Rajasthan - 313001</span></div>
+        <div class="footer-ci"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg><span>cajainprakash@gmail.com</span></div>
+        <div class="footer-ci"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.5 19.79 19.79 0 01.77 1a2 2 0 012-2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 6.45a16 16 0 006.29 6.29l.94-.94a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg><span>+91-8046039917</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Bolia Brothers LLP. All rights reserved.</p></div>
+  </footer>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<div class="page" id="page-about">
+  <div class="page-hero" style="background-image:url('https://images.pexels.com/photos/1537169/pexels-photo-1537169.jpeg?auto=compress&cs=tinysrgb&w=1600')">
+    <div class="page-hero-content"><span class="section-label">ABOUT US</span><h1>Building Trust Through Quality</h1><p>Bolia Brothers LLP is committed to excellence in agricultural commodity distribution, serving businesses across India with integrity and reliability.</p></div>
+  </div>
+  <div class="section" style="background:var(--bg);">
+    <div class="who-text">
+      <h2>Who We Are</h2>
+      <p>Established on May 1, 2023, Bolia Brothers LLP (LLPIN: ACA-8788) operates in the wholesale trade industry, specializing in the distribution of agricultural commodities and food staples. Based in Udaipur, Rajasthan, we have built a reputation for delivering premium quality products including Basmati Rice, Yellow Corn, Lokwan Wheat, and Wheat & Malt Extract.</p>
+      <p>With a total contribution of ₹1,00,00,000, we are well-positioned to serve the growing needs of businesses across India. Our commitment to quality, reliability, and customer satisfaction sets us apart in the competitive agricultural distribution industry.</p>
+    </div>
+  </div>
+  <div class="section" style="background:var(--bg-section);">
+    <div class="centered"><h2 class="section-title">Our Mission, Vision & Values</h2></div>
+    <div class="mvv-grid">
+      <div class="mvv-card"><div class="mvv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></div><h3>Our Mission</h3><p>To provide high-quality agricultural commodities to businesses across India, ensuring reliable supply chains and competitive pricing that support the growth of our partners.</p></div>
+      <div class="mvv-card"><div class="mvv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><h3>Our Vision</h3><p>To become the most trusted name in agricultural commodity distribution across India, recognized for our commitment to quality, reliability, and customer satisfaction.</p></div>
+      <div class="mvv-card"><div class="mvv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><h3>Our Values</h3><p>Integrity, quality, reliability, and customer focus drive everything we do. We build long-term partnerships based on trust and mutual growth.</p></div>
+      <div class="mvv-card"><div class="mvv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div><h3>Our Approach</h3><p>We leverage our strong network of suppliers and logistics partners to ensure timely delivery of premium products at competitive market rates.</p></div>
+    </div>
+  </div>
+  <div class="section" style="background:var(--bg);">
+    <div class="centered"><h2 class="section-title">Our Journey</h2></div>
+    <div class="journey-list">
+      <div class="journey-item"><div class="journey-year">2023</div><div class="journey-text"><h4>Company Incorporated</h4><p>Bolia Brothers LLP established in Udaipur, Rajasthan</p></div></div>
+      <div class="journey-item"><div class="journey-year">2023</div><div class="journey-text"><h4>Product Portfolio</h4><p>Launched distribution of Basmati Rice, Yellow Corn, Lokwan Wheat, and Wheat & Malt Extract</p></div></div>
+      <div class="journey-item"><div class="journey-year">2024</div><div class="journey-text"><h4>Growth & Expansion</h4><p>Expanded distribution network across multiple states in India</p></div></div>
+      <div class="journey-item"><div class="journey-year">2025</div><div class="journey-text"><h4>Continued Excellence</h4><p>Strengthening partnerships and enhancing service quality</p></div></div>
+    </div>
+  </div>
+  <div class="section" style="background:var(--bg-section);">
+    <div class="industry-box">
+      <h2>Industry Positioning</h2>
+      <p>In the competitive landscape of agricultural commodity distribution, Bolia Brothers LLP stands out through our unwavering commitment to quality and customer service. We work with trusted suppliers and maintain stringent quality control measures to ensure that every product meets the highest standards.</p>
+      <p>Our strategic location in Udaipur, combined with our robust logistics network, enables us to efficiently serve clients across multiple states. Whether you need bulk quantities for industrial processing or consistent supplies for retail distribution, we have the capability and expertise to meet your requirements.</p>
+    </div>
+  </div>
+  <div class="cta-dark"><h2>Ready to Partner With Us?</h2><p>Get in touch to discuss your agricultural commodity requirements and discover how we can support your business.</p><a class="btn-orange" onclick="showPage('contact')">Contact Us Today →</a></div>
+  <footer><div class="footer-grid"><div class="footer-brand"><span class="logo" onclick="showPage('home')">Bolia Brothers LLP</span><p>Trusted Agricultural Commodity Distributors</p><p class="llpin">LLPIN: ACA-8788<br>Incorporated: May 1, 2023</p></div><div class="footer-col"><h4>Quick Links</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('about')">About Us</a></li><li><a onclick="showPage('products')">Products</a></li><li><a onclick="showPage('leadership')">Leadership</a></li><li><a onclick="showPage('contact')">Contact</a></li></ul></div><div class="footer-col"><h4>Our Products</h4><ul><li><a onclick="showPage('products')">Basmati Rice</a></li><li><a onclick="showPage('products')">Yellow Corn</a></li><li><a onclick="showPage('products')">Lokwan Wheat</a></li><li><a onclick="showPage('products')">Wheat &amp; Malt Extract</a></li></ul></div><div class="footer-col"><h4>Contact Info</h4><div class="footer-ci"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.38)"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>315 L1 Road, Bhupalpura, Girwa, Udaipur, Rajasthan - 313001</span></div><div class="footer-ci"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.38)"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg><span>cajainprakash@gmail.com</span></div><div class="footer-ci"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.38)"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.5 19.79 19.79 0 01.77 1a2 2 0 012-2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 6.45a16 16 0 006.29 6.29l.94-.94a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg><span>+91-8046039917</span></div></div></div><div class="footer-bottom"><p>© 2026 Bolia Brothers LLP. All rights reserved.</p></div></footer>
+</div>
+
+<!-- ═══ PRODUCTS ═══ -->
+<div class="page" id="page-products">
+  <div class="page-hero" style="background-image:url('https://images.pexels.com/photos/1459331/pexels-photo-1459331.jpeg?auto=compress&cs=tinysrgb&w=1600')">
+    <div class="page-hero-content"><span class="section-label">OUR PRODUCTS</span><h1>Premium Agricultural Commodities</h1><p>High-quality products sourced from trusted suppliers across India</p></div>
+  </div>
+  <div style="background:var(--bg); padding-bottom:0;">
+    <div class="prod-cards">
+      <div class="prod-card"><div class="prod-card-img"><img src="https://images.pexels.com/photos/4110251/pexels-photo-4110251.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Basmati Rice"/></div><div class="prod-card-body"><div class="prod-card-header"><h3>Basmati Rice</h3><div class="prod-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div></div><span class="prod-cat">Rice</span><p>Premium quality aromatic Basmati rice, known for its distinctive fragrance and long grains. Perfect for biryanis, pulao, and everyday meals.</p><button class="btn-full" onclick="openInquiry('Basmati Rice')">Send Inquiry</button></div></div>
+      <div class="prod-card"><div class="prod-card-img"><img src="https://images.pexels.com/photos/1459331/pexels-photo-1459331.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Yellow Corn"/></div><div class="prod-card-body"><div class="prod-card-header"><h3>Yellow Corn</h3><div class="prod-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div></div><span class="prod-cat">Corn</span><p>High-quality yellow corn sourced from the finest farms. Ideal for animal feed, food processing, and industrial applications.</p><button class="btn-full" onclick="openInquiry('Yellow Corn')">Send Inquiry</button></div></div>
+      <div class="prod-card"><div class="prod-card-img"><img src="https://images.pexels.com/photos/30723398/pexels-photo-30723398.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Lokwan Wheat"/></div><div class="prod-card-body"><div class="prod-card-header"><h3>Lokwan Wheat</h3><div class="prod-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div></div><span class="prod-cat">Wheat</span><p>Superior grade Lokwan wheat variety with excellent nutritional value. Suitable for flour production and various food applications.</p><button class="btn-full" onclick="openInquiry('Lokwan Wheat')">Send Inquiry</button></div></div>
+      <div class="prod-card"><div class="prod-card-img"><img src="https://images.pexels.com/photos/30723398/pexels-photo-30723398.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Wheat & Malt Extract"/></div><div class="prod-card-body"><div class="prod-card-header"><h3>Wheat &amp; Malt Extract</h3><div class="prod-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div></div><span class="prod-cat">Extract</span><p>Natural wheat and malt extract rich in nutrients. Perfect for beverages, food supplements, and health products.</p><button class="btn-full" onclick="openInquiry('Wheat & Malt Extract')">Send Inquiry</button></div></div>
+    </div>
+    <div class="bulk-box"><h2>Bulk Orders & Custom Requirements</h2><p>We specialize in bulk orders and can accommodate custom requirements based on your business needs. Contact us to discuss pricing, delivery schedules, and special arrangements.</p><a href="mailto:cajainprakash@gmail.com" class="btn-dark">Email for Bulk Orders</a></div>
+  </div>
+  <div class="cta-dark"><h2>Ready to Partner With Us?</h2><p>Get in touch to discuss your agricultural commodity requirements and discover how we can support your business.</p><a class="btn-orange" onclick="showPage('contact')">Contact Us Today →</a></div>
+  <footer><div class="footer-grid"><div class="footer-brand"><span class="logo" onclick="showPage('home')">Bolia Brothers LLP</span><p>Trusted Agricultural Commodity Distributors</p><p class="llpin">LLPIN: ACA-8788<br>Incorporated: May 1, 2023</p></div><div class="footer-col"><h4>Quick Links</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('about')">About Us</a></li><li><a onclick="showPage('products')">Products</a></li><li><a onclick="showPage('leadership')">Leadership</a></li><li><a onclick="showPage('contact')">Contact</a></li></ul></div><div class="footer-col"><h4>Our Products</h4><ul><li><a onclick="showPage('products')">Basmati Rice</a></li><li><a onclick="showPage('products')">Yellow Corn</a></li><li><a onclick="showPage('products')">Lokwan Wheat</a></li><li><a onclick="showPage('products')">Wheat &amp; Malt Extract</a></li></ul></div><div class="footer-col"><h4>Contact Info</h4><div class="footer-ci"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.38)"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>315 L1 Road, Bhupalpura, Girwa, Udaipur, Rajasthan - 313001</span></div><div class="footer-ci"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.38)"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg><span>cajainprakash@gmail.com</span></div><div class="footer-ci"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.38)"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.5 19.79 19.79 0 01.77 1a2 2 0 012-2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 6.45a16 16 0 006.29 6.29l.94-.94a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg><span>+91-8046039917</span></div></div></div><div class="footer-bottom"><p>© 2026 Bolia Brothers LLP. All rights reserved.</p></div></footer>
+</div>
+
+<!-- ═══ LEADERSHIP ═══ -->
+<div class="page" id="page-leadership">
+  <div class="page-hero" style="background-image:url('https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1600')">
+    <div class="page-hero-content"><span class="section-label">LEADERSHIP</span><h1>Meet Our Partners</h1><p>Experienced leaders dedicated to excellence in agricultural commodity distribution</p></div>
+  </div>
+  <div class="section" style="background:var(--bg);">
+    <div class="team-intro"><h2>Our Leadership Team</h2><p>Bolia Brothers LLP is led by three dedicated partners who bring together decades of combined experience in agricultural trade, operations, and customer service.</p></div>
+    <div class="team-cards">
+      <div class="team-card"><div class="team-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.5" width="38" height="38"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><h3>Kamal Bolia</h3><span class="team-role">PARTNER</span><p>Leading strategic partnerships and business development initiatives with extensive experience in agricultural commodity markets.</p></div>
+      <div class="team-card"><div class="team-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.5" width="38" height="38"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><h3>Himmat Lal Bolia</h3><span class="team-role">PARTNER</span><p>Managing operations and supply chain logistics to ensure timely and efficient delivery of quality products across India.</p></div>
+      <div class="team-card"><div class="team-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.5" width="38" height="38"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><h3>Hemlata Bolia</h3><span class="team-role">PARTNER</span><p>Overseeing quality assurance and customer relationships, ensuring excellence in product standards and client satisfaction.</p></div>
+    </div>
+  </div>
+  <div class="section" style="background:var(--bg-section);">
+    <div class="industry-box"><h2>Partnership Philosophy</h2><p>At Bolia Brothers LLP, our partners work collaboratively to ensure every aspect of our business runs smoothly. From sourcing and quality control to logistics and customer service, each partner brings unique expertise that contributes to our success.</p><p>Our hands-on approach and commitment to understanding our clients' needs have helped us build lasting relationships based on trust, reliability, and mutual growth.</p></div>
+  </div>
+  <div class="cta-dark"><h2>Ready to Partner With Us?</h2><p>Get in touch to discuss your agricultural commodity requirements and discover how we can support your business.</p><a class="btn-orange" onclick="showPage('contact')">Contact Us Today →</a></div>
+  <footer><div class="footer-grid"><div class="footer-brand"><span class="logo" onclick="showPage('home')">Bolia Brothers LLP</span><p>Trusted Agricultural Commodity Distributors</p><p class="llpin">LLPIN: ACA-8788<br>Incorporated: May 1, 2023</p></div><div class="footer-col"><h4>Quick Links</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('about')">About Us</a></li><li><a onclick="showPage('products')">Products</a></li><li><a onclick="showPage('leadership')">Leadership</a></li><li><a onclick="showPage('contact')">Contact</a></li></ul></div><div class="footer-col"><h4>Our Products</h4><ul><li><a onclick="showPage('products')">Basmati Rice</a></li><li><a onclick="showPage('products')">Yellow Corn</a></li><li><a onclick="showPage('products')">Lokwan Wheat</a></li><li><a onclick="showPage('products')">Wheat &amp; Malt Extract</a></li></ul></div><div class="footer-col"><h4>Contact Info</h4><div class="footer-ci"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.38)"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>315 L1 Road, Bhupalpura, Girwa, Udaipur, Rajasthan - 313001</span></div><div class="footer-ci"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.38)"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg><span>cajainprakash@gmail.com</span></div><div class="footer-ci"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.38)"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.5 19.79 19.79 0 01.77 1a2 2 0 012-2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 6.45a16 16 0 006.29 6.29l.94-.94a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg><span>+91-8046039917</span></div></div></div><div class="footer-bottom"><p>© 2026 Bolia Brothers LLP. All rights reserved.</p></div></footer>
+</div>
+
+<!-- ═══ CONTACT ═══ -->
+<div class="page" id="page-contact">
+  <div class="page-hero" style="background-image:url('https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=1600')">
+    <div class="page-hero-content"><span class="section-label">CONTACT US</span><h1>Get in Touch</h1><p>Have questions about our products or services? We'd love to hear from you.</p></div>
+  </div>
+  <div class="section" style="background:var(--bg);">
+    <div class="contact-layout">
+      <div class="contact-info">
+        <h2>Contact Information</h2>
+        <div class="contact-item"><div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" fill="white"/><circle cx="12" cy="10" r="3" fill="rgba(255,255,255,0.6)"/></svg></div><div class="contact-item-text"><strong>Address</strong><span>315 L1 Road, Bhupalpura<br>Girwa, Udaipur<br>Rajasthan - 313001, India</span></div></div>
+        <div class="contact-item"><div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" fill="white"/><polyline points="22,6 12,13 2,6" fill="none" stroke="rgba(200,68,26,0.5)" stroke-width="2"/></svg></div><div class="contact-item-text"><strong>Email</strong><span>cajainprakash@gmail.com</span></div></div>
+        <div class="contact-item"><div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.5 19.79 19.79 0 01.77 1a2 2 0 012-2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 6.45a16 16 0 006.29 6.29l.94-.94a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" fill="white"/></svg></div><div class="contact-item-text"><strong>Phone</strong><span>+91-8046039917</span></div></div>
+        <div class="biz-hours"><strong>Business Hours</strong><p>Monday - Saturday: 9:00 AM - 6:00 PM<br>Sunday: Closed</p></div>
+      </div>
+      <div class="contact-form-box">
+        <h2>Send a Message</h2>
+        <div id="contact-form">
+          <div class="form-group"><label>Full Name *</label><input type="text" id="c-name"/></div>
+          <div class="form-group"><label>Email Address *</label><input type="email" id="c-email"/></div>
+          <div class="form-group"><label>Phone Number *</label><input type="tel" id="c-phone"/></div>
+          <div class="form-group"><label>Subject *</label><input type="text" id="c-subject"/></div>
+          <div class="form-group"><label>Message *</label><textarea id="c-message" rows="5"></textarea></div>
+          <button class="btn-send" onclick="submitContact()"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="17" height="17"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Send Message</button>
+        </div>
+        <div class="success-msg" id="contact-success"><div class="check">✅</div><h3>Message Sent!</h3><p>Thank you for reaching out. We'll get back to you within one business day.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="map-section">
+    <h2>Our Location</h2>
+    <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3629.2!2d73.6883!3d24.5854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3967e56a33e3c5a5%3A0x1!2sBhupalpura%2C+Girwa%2C+Udaipur%2C+Rajasthan+313001!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0;"></iframe>
+  </div>
+  <div class="cta-dark"><h2>Ready to Partner With Us?</h2><p>Get in touch to discuss your agricultural commodity requirements and discover how we can support your business.</p><a class="btn-orange" onclick="showPage('contact')">Contact Us Today →</a></div>
+  <footer><div class="footer-grid"><div class="footer-brand"><span class="logo" onclick="showPage('home')">Bolia Brothers LLP</span><p>Trusted Agricultural Commodity Distributors</p><p class="llpin">LLPIN: ACA-8788<br>Incorporated: May 1, 2023</p></div><div class="footer-col"><h4>Quick Links</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('about')">About Us</a></li><li><a onclick="showPage('products')">Products</a></li><li><a onclick="showPage('leadership')">Leadership</a></li><li><a onclick="showPage('contact')">Contact</a></li></ul></div><div class="footer-col"><h4>Our Products</h4><ul><li><a onclick="showPage('products')">Basmati Rice</a></li><li><a onclick="showPage('products')">Yellow Corn</a></li><li><a onclick="showPage('products')">Lokwan Wheat</a></li><li><a onclick="showPage('products')">Wheat &amp; Malt Extract</a></li></ul></div><div class="footer-col"><h4>Contact Info</h4><div class="footer-ci"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.38)"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>315 L1 Road, Bhupalpura, Girwa, Udaipur, Rajasthan - 313001</span></div><div class="footer-ci"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.38)"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg><span>cajainprakash@gmail.com</span></div><div class="footer-ci"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.38)"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.5 19.79 19.79 0 01.77 1a2 2 0 012-2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 6.45a16 16 0 006.29 6.29l.94-.94a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg><span>+91-8046039917</span></div></div></div><div class="footer-bottom"><p>© 2026 Bolia Brothers LLP. All rights reserved.</p></div></footer>
+</div>
+
+<!-- INQUIRY MODAL -->
+<div class="modal-overlay" id="inquiryModal">
+  <div class="modal">
+    <div class="modal-header"><div><h2>Send Inquiry</h2><p id="inq-label">Tell us your requirements</p></div><button class="modal-close" onclick="closeModal('inquiryModal')">✕</button></div>
+    <div id="inquiry-form">
+      <div class="form-group"><label>Full Name *</label><input type="text" id="i-name"/></div>
+      <div class="form-group"><label>Email *</label><input type="email" id="i-email"/></div>
+      <div class="form-group"><label>Phone *</label><input type="tel" id="i-phone"/></div>
+      <div class="form-group"><label>Product</label><select id="i-product"><option>Basmati Rice</option><option>Yellow Corn</option><option>Lokwan Wheat</option><option>Wheat &amp; Malt Extract</option></select></div>
+      <div class="form-group"><label>Message</label><textarea id="i-message" placeholder="Quantity, specs, delivery..."></textarea></div>
+      <button class="btn-send" onclick="submitInquiry()"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="17" height="17"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Submit Inquiry</button>
+    </div>
+    <div class="success-msg" id="inquiry-success"><div class="check">✅</div><h3>Inquiry Received!</h3><p>We'll get back to you shortly.</p></div>
+  </div>
+</div>
+
+<!-- BROCHURE MODAL -->
+<div class="modal-overlay" id="brochureModal">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header"><div><h2>Download Brochure</h2><p>Enter details to receive our catalogue</p></div><button class="modal-close" onclick="closeModal('brochureModal')">✕</button></div>
+    <div id="brochure-form">
+      <div class="form-group"><label>Your Name *</label><input type="text" id="b-name"/></div>
+      <div class="form-group"><label>Email Address *</label><input type="email" id="b-email"/></div>
+      <button class="btn-send" onclick="submitBrochure()"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="17" height="17"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download Now</button>
+    </div>
+    <div class="success-msg" id="brochure-success"><div class="check">✅</div><h3>Request Received!</h3><p>We'll send the brochure to your email shortly.</p></div>
+  </div>
+</div>
+
+<!-- WHATSAPP -->
+<a class="wa-btn" href="https://wa.me/918046039917?text=Hello%20Bolia%20Brothers%2C%20I%20would%20like%20to%20know%20more%20about%20your%20products." target="_blank" rel="noopener" title="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const API = '/api'; 
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    const el = document.getElementById('nav-' + name);
+    if (el) el.classList.add('active');
+    document.getElementById('navLinks').classList.remove('open');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+
+  function openInquiry(product) {
+    document.getElementById('i-product').value = product;
+    document.getElementById('inq-label').textContent = 'Inquiring about: ' + product;
+    document.getElementById('inquiry-form').style.display = 'block';
+    document.getElementById('inquiry-success').style.display = 'none';
+    document.getElementById('inquiryModal').classList.add('open');
+  }
+
+  function openBrochure() {
+    document.getElementById('brochure-form').style.display = 'block';
+    document.getElementById('brochure-success').style.display = 'none';
+    document.getElementById('brochureModal').classList.add('open');
+  }
+
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+  });
+
+  function showToast(msg, isError) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast' + (isError ? ' error' : '') + ' show';
+    setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  async function submitInquiry() {
+    const name = document.getElementById('i-name').value.trim();
+    const email = document.getElementById('i-email').value.trim();
+    const phone = document.getElementById('i-phone').value.trim();
+    const product = document.getElementById('i-product').value;
+    const message = document.getElementById('i-message').value.trim();
+    if (!name || !email || !phone) { showToast('Please fill in all required fields', true); return; }
+    try {
+      const res = await fetch(API + '/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, product, message })
+      });
+      if (res.ok) {
+        document.getElementById('inquiry-form').style.display = 'none';
+        document.getElementById('inquiry-success').style.display = 'block';
+      } else showToast('Something went wrong. Please try again.', true);
+    } catch {
+      showToast('Could not connect to server.', true);
+    }
+  }
+
+  async function submitContact() {
+    const name = document.getElementById('c-name').value.trim();
+    const email = document.getElementById('c-email').value.trim();
+    const phone = document.getElementById('c-phone').value.trim();
+    const subject = document.getElementById('c-subject').value.trim();
+    const message = document.getElementById('c-message').value.trim();
+    if (!name || !email || !phone || !subject || !message) {
+      showToast('Please fill in all fields', true); return;
+    }
+    try {
+      const res = await fetch(API + '/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, subject, message })
+      });
+      if (res.ok) {
+        document.getElementById('contact-form').style.display = 'none';
+        document.getElementById('contact-success').style.display = 'block';
+      } else showToast('Something went wrong. Please try again.', true);
+    } catch {
+      showToast('Could not connect to server.', true);
+    }
+  }
+
+  async function submitBrochure() {
+    const name = document.getElementById('b-name').value.trim();
+    const email = document.getElementById('b-email').value.trim();
+    if (!name || !email) {
+      showToast('Please fill in all fields', true); return;
+    }
+    try {
+      await fetch(API + '/brochure-download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email })
+      });
+    } catch {}
+    document.getElementById('brochure-form').style.display = 'none';
+    document.getElementById('brochure-success').style.display = 'block';
+  }
+</script>
