@@ -1,7 +1,25 @@
 {
-  "name": "bolia-backend",
-  "version": "1.0.0",
+  "name": "bolia-brothers-web",
+  "version": "2.0.0",
+  "description": "Bolia Brothers LLP - Premium Agricultural Wholesale Distribution",
+  "main": "api/server.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "vercel build"
+  },
   "dependencies": {
-    "mongodb": "^6.0.0"
-  }
+    "mongodb": "^6.3.0"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "keywords": [
+    "agriculture",
+    "wholesale",
+    "distribution",
+    "basmati-rice",
+    "corn"
+  ],
+  "author": "Bolia Brothers LLP",
+  "license": "ISC"
 }
